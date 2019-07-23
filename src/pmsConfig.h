@@ -5,13 +5,13 @@
 // Use one of:
 // it depends on Serial Library (and serial pin connection)
 
-#define PMS_ALTSOFTSERIAL
+//#define PMS_ALTSOFTSERIAL
+
+#include <pmsHardwareSerial.h>
 
 #if defined PMS_ALTSOFTSERIAL
-// Install https://github.com/DrDiettrich/AltSoftSerial.git)
-#include <pmsSerialAltSoftSerial.h>
-#else
-#error "At least one of: [ PMS_ALTSOFTSERIAL ] have to be defined in pmsConfig.h"
+    // Install https://github.com/DrDiettrich/AltSoftSerial.git)
+    #include <pmsSerialAltSoftSerial.h>
 #endif
 
 ////////////////////////////////////////////
