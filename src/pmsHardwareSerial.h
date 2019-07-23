@@ -8,7 +8,7 @@ private:
   HardwareSerial* serial_;
 public:
 
-  PmsHardwareSerial(HardwareSerial* serial): serial_(serial) {
+  PmsHardwareSerial(HardwareSerial& serial): serial_(&serial) {
   }
 
   void setTimeout(const unsigned long int timeout) override {
@@ -29,7 +29,7 @@ public:
   }
 
   void flushInput() override {
-    //do nothing
+    while(serial_->available()) serial_->read();
   }
 
   uint8_t peek() override {

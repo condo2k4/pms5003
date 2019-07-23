@@ -67,7 +67,7 @@ namespace pmsx {
 				"Serial port not initialized",
 				"Status:unknown"
 			};
-			return errorMsg[min(value, _countof(errorMsg))];
+			return errorMsg[min((unsigned int)value, _countof(errorMsg))];
 		}
 	};
 
@@ -429,7 +429,16 @@ namespace pmsx {
 
 			skipGarbage();
 
-			if (available() < (nData + 2) * sizeof*data + sizeof(sig)) {
+			if (available() < (nData + 2) * sizeof(*data) + sizeof(sig)) {
+				// Serial.print(available());
+				// Serial.print(" / ");
+				// Serial.print(nData + 2);
+				// Serial.print("*");
+				// Serial.print(sizeof*data);
+				// Serial.print("+");
+				// Serial.print(sizeof(sig));
+				// Serial.print("=");
+				// Serial.println((nData + 2) * sizeof*data + sizeof(sig));
 				return PmsStatus{ PmsStatus::NO_DATA };
 			}
 
@@ -447,6 +456,19 @@ namespace pmsx {
 			if (pmsSerial->read((uint8_t*)&thisFrameLen, sizeof thisFrameLen) != sizeof thisFrameLen) {
 				return PmsStatus{ PmsStatus::READ_ERROR };
 			}
+
+			// if (thisFrameLen < (nData + 2) * sizeof(*data) + sizeof(sig)) {
+			// 	Serial.print(available());
+			// 	Serial.print(" / ");
+			// 	Serial.print(nData + 2);
+			// 	Serial.print("*");
+			// 	Serial.print(sizeof*data);
+			// 	Serial.print("+");
+			// 	Serial.print(sizeof(sig));
+			// 	Serial.print("=");
+			// 	Serial.println((nData + 2) * sizeof*data + sizeof(sig));
+			// 	return PmsStatus{ PmsStatus::NO_DATA };
+			// }
 
 			sumBuffer(&sum, thisFrameLen);
 			swapEndianBig16(&thisFrameLen);
